@@ -1,0 +1,40 @@
+.modal-container{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+}
+
+.modal-box{
+    border: solid;
+    border-color: grey;
+    border-radius: 8px;
+    background-color: darkgrey;
+    position: relative;
+    width: 20%;
+    top: 40%;
+    left: 40%;
+}
+
+.modal-header, .modal-body{
+    border-bottom: solid;
+    border-color: grey;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-body{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.btn_x{
+    position: relative;
+    left: 29%;
+}
+
+.modal-footer{
+    display: flex;
+    justify-content: center;
+}
