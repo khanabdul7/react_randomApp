@@ -1,0 +1,50 @@
+*{
+    margin: 2px;
+}
+  .layout-container{
+    background-color: bisque;
+    height: 97vh;
+    margin: 2px;
+    display: flex;
+    flex-direction: column;
+    font-family: cursive;
+    text-align: center;
+  }
+  
+  header{
+    border: 2px solid black;
+    background-color: aquamarine;
+    padding: 3em 0 3em 0;
+  }
+  
+  .left{
+    border: 2px solid black;
+    background-color: aquamarine;
+    padding: 3em 0 3em 0;
+    flex: 1 1 150px ;
+  }
+  
+  .right{
+    border: 2px solid black;
+    padding: 3em 0 3em 0;
+    background-color: aquamarine;
+    flex: 1 1 150px ;
+  }
+  
+  .main{
+    display: flex;
+    flex: 1;
+  }
+  
+  main{
+    border: 2px solid black;
+    background-color: antiquewhite;
+    padding: 3em 0 3em 0;
+    flex: 5 5 150px ;
+  }
+  
+  footer{
+    border: 2px solid black;
+    background-color: aquamarine;
+    padding: 3em 0 3em 0;
+  }

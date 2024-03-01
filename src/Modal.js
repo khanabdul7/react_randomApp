@@ -32,7 +32,7 @@ const Modal = (props) => {
             return (
                 <>
                     <h4>{msg}</h4>
-                    <input type='text' placeholder='Enter Name' value={response} onChange={(e) => (setResponse(e.target.value))} />
+                    <input type='text' className='w-60 m-auto' placeholder='Enter Name' value={response} onChange={(e) => (setResponse(e.target.value))} />
                 </>
             )
         } else {
@@ -46,13 +46,13 @@ const Modal = (props) => {
             case Constants.REQUIRED:
                 return (
                     <>
-                        <button className='bg-lime-500 rounded-md w-12 h-6 my-2' onClick={() => handleSaveButton(response)} type='button' id='save-btn'>Save</button>
-                        <button className='bg-lime-500 rounded-md w-12 h-6 my-2' onClick={closeModal} type='button' id='cancel-btn'>Cancel</button>
+                        <button className='bg-lime-500 rounded-md w-12 h-6 m-0.5' onClick={() => handleSaveButton(response)} type='button' id='save-btn'>Save</button>
+                        <button className='bg-lime-500 rounded-md w-12 h-6 m-0.5' onClick={closeModal} type='button' id='cancel-btn'>Cancel</button>
                     </>
                 )
             default:
                 return (
-                    <button className='ok-btn bg-lime-500 rounded-md w-12 h-6 my-2' onClick={closeModal} type='button' id='ok-btn'>ok</button>
+                    <button className='ok-btn bg-lime-500 rounded-md w-8 h-fit m-0.5' onClick={closeModal} type='button' id='ok-btn'>ok</button>
                 )
         }
     }
@@ -63,7 +63,7 @@ const Modal = (props) => {
                     <div className="modal-box">
                         <div className="modal-header">
                             <h3>{heading}</h3>
-                            <button className="btn_x bg-slate-500 rounded-md h-7 w-6 " type="button" onClick={closeModal}>X</button>
+                            <button className="btn_x bg-slate-500 rounded-md w-6 " type="button" onClick={closeModal}>X</button>
                         </div>
                         <div className="modal-body">
                             {renderBody(heading)}

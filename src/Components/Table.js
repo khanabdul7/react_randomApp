@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTrash} from '@fortawesome/free-solid-svg-icons'
-
+import './Table.css'
 const Table = (props) => {
     let {nameList} = props
     return (<>

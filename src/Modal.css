@@ -15,26 +15,33 @@
     left: 40%;
 }
 
-.modal-header, .modal-body{
+.modal-header{
     border-bottom: solid;
     border-color: grey;
     display: flex;
     justify-content: center;
 }
 
+.modal-header > h3{
+    margin: auto;
+    height: 1.55rem;
+}
 .modal-body{
     background-color: white;
     display: flex;
     flex-direction: column;
     text-align: center;
+    min-height: 40px;
+    justify-content: center;
 }
 
 .btn_x{
-    position: relative;
-    left: 29%;
+    margin: 2px;
 }
 
 .modal-footer{
     display: flex;
-    justify-content: center;
+    border-top: solid;
+    border-color: grey;
+    justify-content: space-evenly;
 }

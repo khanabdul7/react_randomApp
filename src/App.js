@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.css';
-import Table from './Table';
-import Banner from './Banner';
+import Table from './Components/Table';
+import Alert, { showAlert } from './Alert';
 import Modal from './Modal';
 import { Constants } from './Constants';
 
@@ -10,19 +10,30 @@ function App() {
   let [value, setValue] = useState('')
   let [names, setNames] = useState(['alpha', 'arlot', 'aldous', 'thamuz', 'vale', 'brody'])
   let [fileName, setFileName] = useState()
-  const[modalState, setModalState] = useState({
+  const [modalState, setModalState] = useState({
     isOpen: false,
     heading: '',
     msg: '',
-})
+  })
+  const [alertState, setAlertState] = useState({
+    message: undefined,
+    color: undefined
+  })
+
   const handleInputChange = (e) => {
     setValue(e.target.value)
   }
 
   const handleAdd = () => {
     if (value !== '') {
-      setNames([...names, value])
-      setValue('')
+      let exist = names.filter(name => name === value)
+      if (exist.length == 0) {
+        setNames([...names, value])
+        showAlert(`${value} added !`)
+        setValue('')
+      } else {
+        setModal(true, Constants.INFORMATION, 'Name already exists !')
+      }
     }
   }
 
@@ -62,22 +73,22 @@ function App() {
     URL.revokeObjectURL(link.href);
   }
 
-  const handleFileSelect = (event)=>{
-    if(event.target.files){
+  const handleFileSelect = (event) => {
+    if (event.target.files) {
       setFileName(event.target.files[0])
     }
   }
 
   //Used to upload a file and render it in table view.
-  const uploadList = () =>{
+  const uploadList = () => {
     let file;
-    if(fileName && fileName.type === 'text/plain'){
+    if (fileName && fileName.type === 'text/plain') {
       file = fileName;
     }
-    if(fileName && fileName.type !== 'text/plain'){
+    if (fileName && fileName.type !== 'text/plain') {
       setModal(true, 'Information', 'Selected file should be a text file!')
     }
-    if(!fileName){
+    if (!fileName) {
       setModal(true, 'Information', 'Please select file to upload!')
     }
 
@@ -98,40 +109,71 @@ function App() {
   }
 
   //used to toggleModal and set its values.
-  const setModal = (open, header, msg)=>{
+  const setModal = (open, header, msg) => {
     modalState.isOpen = open;
     modalState.heading = header;
     modalState.msg = msg;
-    setModalState({...modalState})
-}
-  return (<>
-    <div>
-      {/* needs to implement */}
-      <Banner message='message' />
-    </div>
-    <div className='flex-col flex h-screen justify-center'>
-      <div className='bg-slate-300'>
-        <h1 className=' text-center text-3xl p-1'>Welcome to Random App</h1>
+    setModalState({ ...modalState })
+  }
+
+  const showAlert = (msg, color = 'skyblue') => {
+    setAlertState({
+      ...alertState,
+      message: msg,
+      color: color
+    })
+    setTimeout(() => {
+      console.log('inside timeout')
+      closeAlert()
+    }, 2000);
+  }
+  const closeAlert = () => {
+    setAlertState({ ...alertState, message: undefined })
+  }
+  return (
+    <>
+      <div className='layout-container'>
+        <header>
+          Header
+        </header>
+        <div className='main'>
+          <aside className='left'>Left</aside>
+          <main>
+            <div className='alert-container'>
+              <Alert showAlert={showAlert} closeAlert={closeAlert} alertState={alertState} />
+            </div>
+            <div className='bg-slate-300'>
+              <h1 className=' text-center text-3xl p-1'>Welcome to Random App</h1>
+            </div>
+            <div className='flex-col flex justify-center'>
+              <div className="flex justify-center">
+                <input className='text-left w-80 border-2 border-black rounded-md p-2 m-2 text-base' type='text' id='name-input' value={value} placeholder='add names here' onChange={(e) => handleInputChange(e)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleAdd() }}></input>
+              </div>
+              <div className="flex justify-center mb-2">
+                <input type='file' id='upload-btn' onChange={(e) => handleFileSelect(e)} ></input>
+              </div>
+              <div className='flex justify-center'>
+                <button className='bg-lime-500 rounded-md w-12 h-10 mx-2' type='button' id='btn' onClick={(value) => handleAdd(value)}>Add</button>
+                <button className='bg-lime-500 rounded-md w-12 h-10 mx-2' type='button' id='random-btn' onClick={() => generateRandom()}>Get</button>
+                <button className='bg-lime-500 rounded-md w-20 h-10 mx-2' type='button' id='save-btn' onClick={() => setModal(true, Constants.REQUIRED, Constants.PleaseEnterName)}>save list</button>
+                <button className='bg-lime-500 rounded-md w-20 h-10 mx-2' type='button' id='upload-btn' onClick={() => uploadList()}>upload list</button>
+              </div>
+              <Modal modalState={modalState} setModalState={setModalState} saveList={saveList} />
+            </div>
+          </main>
+          <aside className='right'>
+            <div className='flex justify-center mt-3 max-h-80'>
+              <div>
+                <Table nameList={names} handleRemove={handleRemove} />
+              </div>
+            </div>
+          </aside>
+        </div>
+        <footer>Footer</footer>
       </div>
-      <div className="flex justify-center">
-        <input className='text-left w-80 border-2 border-black rounded-md p-2 m-2 text-base' type='text' id='name-input' value={value} placeholder='add names here' onChange={(e) => handleInputChange(e)}
-          onKeyDown={(e) => { if (e.key === 'Enter') handleAdd() }}></input>
-      </div>
-      <div className="flex justify-center mb-2">
-        <input type='file' id='upload-btn' onChange={(e)=>handleFileSelect(e)} ></input>
-      </div>
-      <div className='flex justify-center'>
-        <button className='bg-lime-500 rounded-md w-12 h-10 mx-2' type='button' id='btn' onClick={(value) => handleAdd(value)}>Add</button>
-        <button className='bg-lime-500 rounded-md w-12 h-10 mx-2' type='button' id='random-btn' onClick={() => generateRandom()}>Get</button>
-        <button className='bg-lime-500 rounded-md w-20 h-10 mx-2' type='button' id='save-btn' onClick={() => setModal(true, Constants.REQUIRED, Constants.PleaseEnterName)}>save list</button>
-        <button className='bg-lime-500 rounded-md w-20 h-10 mx-2' type='button' id='upload-btn' onClick={() => uploadList()}>upload list</button>
-      </div>
-      <div className='flex justify-center mt-3'>
-        <Table nameList={names} handleRemove={handleRemove} />
-      </div>
-      <Modal modalState={modalState} setModalState={setModalState} saveList={saveList}/>
-    </div>
-  </>
+
+    </>
   );
 }
 
